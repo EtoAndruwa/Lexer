@@ -21,6 +21,9 @@
             NEW_LINE,
             KEY_WORD,
             OTHER,
+            ID_OBJ,
+            ID_TYPE,
+            EOFILE,
 
             // below must be checked
             STRING,
@@ -28,12 +31,13 @@
             OBJ_NAME,
             VARIABLE,
             COMMENT,
-            ID_OBJ,
-            ID_TYPE,
-
       };
 %}
 
+DIGIT0 [0-9] 
+DIGIT1 [1-9]
+az     [a-z]
+AZ     [A-Z] 
 
 
 %%
@@ -45,22 +49,29 @@
                         cur_tok_num++;
                   }
 
-[0-9]       {
+{az}[a-zA-Z0-9_]*      {
+                              total_tok_num++;
+                              print_token_data(ID_OBJ, yytext, cur_tok_num, line_num, log_ptr);
+                              cur_tok_num++;
+                        }
+
+{AZ}[a-zA-Z0-9_]*      {
+                              total_tok_num++;
+                              print_token_data(ID_TYPE, yytext, cur_tok_num, line_num, log_ptr);
+                              cur_tok_num++;
+                        }
+
+{DIGIT0}    {
                   total_tok_num++;
                   print_token_data(DIGIT, yytext, cur_tok_num, line_num, log_ptr);
                   cur_tok_num++;
             }
 
-[1-9][0-9]+ {
-                  total_tok_num++;
-                  print_token_data(NUMBER, yytext, cur_tok_num, line_num, log_ptr);
-                  cur_tok_num++;
-            }
-
-[_a-zA-Z0-9]+ {
-                  total_tok_num++;
-                  cur_tok_num++;
-            }
+{DIGIT1}{DIGIT0}+ {
+                        total_tok_num++;
+                        print_token_data(NUMBER, yytext, cur_tok_num, line_num, log_ptr);
+                        cur_tok_num++;
+                  }
 
 "true"      {
                   total_tok_num++;
@@ -80,10 +91,16 @@
             }
 
 .           {
-                 print_token_data(OTHER, yytext, cur_tok_num, line_num, log_ptr);
-                 total_tok_num++;
-                 cur_tok_num++;
+                  print_token_data(OTHER, yytext, cur_tok_num, line_num, log_ptr);
+                  total_tok_num++;
+                  cur_tok_num++;
             }
+
+<<EOF>>     {
+                  print_token_data(EOFILE, yytext, cur_tok_num, line_num, log_ptr);
+                  total_tok_num++; 
+                  return 0; 
+            } 
 
 
 %%
@@ -156,11 +173,31 @@ void print_token_data(size_t const tok_type, const char* const tok_text, size_t 
                   fprintf(log_ptr, "NEW_LINE");
                   break;
             }
-      default:
+      case ID_OBJ:
             {
-                  fprintf(log_ptr, "OTHER");
+                  fprintf(log_ptr, "ID_OBJ");
                   break;
             }
+      case ID_TYPE:
+            {
+                  fprintf(log_ptr, "ID_TYPE");
+                  break;
+            }
+      case EOFILE:
+            {
+                  fprintf(log_ptr, "EOFILE");
+                  break;
+            }
+      default:
+            {
+                  fprintf(log_ptr, "DEFAULT CASE");
+                  break;
+            }
+      }
+      
+      if (tok_type == EOFILE)
+      {
+            fprintf(log_ptr, " TOK_TEXT: $\n");
       }
       
       if (tok_type != NEW_LINE)
