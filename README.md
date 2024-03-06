@@ -1,15 +1,22 @@
+![Screenshot](header.png)
 # Lexer for the Stasyan language using Flex
 This is project for Sber's compiler's course.
 
-In general, it parses the `source.txt` and makes a lexical analysis of the source code. The output of the program is `symbol_table.txt`, where all tokens can be found. 
-
-
-Moreover, it produces some additional debugging information and does error handling.
+In general, it parses the `source.txt` and makes a lexical analysis of the source code written in Stasyan language. The output of the program is `symbol_table.txt`, where all tokens can be found. Moreover, it produces some additional debugging information and does error handling.
 
 ## What it can do?
+The last version can identify:
+* Arithmetical operators
+* Type identifiers
+* Object identifiers
+* Digits
+* Numbers (unsigned) 
+* \n 
+* EOF
 
 ## Dependencies
-
+1. GNU Compiler Collection
+2. Valgrind
 
 ## How to use it?
 1. Git clone this repository using:
@@ -25,7 +32,7 @@ code ./Lexer/txt/source.txt
 ```bash
 make
 ```
-4. The output will be in the folder `Lexer/log`
+4. The output will be in the folder `./Lexer/log`
 ![Screenshot](output_exmpl.png)
 
 ## History of updates:
