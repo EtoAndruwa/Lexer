@@ -1,6 +1,4 @@
 ![Screenshot](header.png)
-# Lexer for the Stasyan language using Flex
-This is project for Sber's compiler's course.
 
 In general, it parses the `source.txt` and makes a lexical analysis of the source code written in Stasyan language. The output of the program is `symbol_table.txt`, where all tokens can be found. Moreover, it produces some additional debugging information and does error handling.
 
