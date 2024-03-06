@@ -4,11 +4,11 @@
 
 void print_summary(FILE* const log_ptr)
 {
-      time_t t;   // for the current time
-      time(&t);   // for the current time
+      time_t time_str;   // for the current time
+      time(&time_str);   // for the current time
 
       fprintf(log_ptr, "\n============SUMMARY============\n");
-      fprintf(log_ptr, "Updated: %s", ctime(&t));
+      fprintf(log_ptr, "Updated: %s", ctime(&time_str));
       fprintf(log_ptr, "Total number of token: %ld\n", total_tok_num);
       fprintf(log_ptr, "Total number of lines: %ld\n", line_num);
       fprintf(log_ptr, "============SUMMARY============\n");

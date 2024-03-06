@@ -7,8 +7,8 @@
 
 /*################################################################################################################*/
 
-FILE* open_source(const char* const source_name, FILE* const log_ptr);
-void close_files(FILE* source_ptr, FILE* log_ptr);
+FILE* open_file(const char* const file_name, FILE* const log_ptr);
+void close_file(FILE* file_ptr, FILE* log_ptr);
 
 /*################################################################################################################*/
 

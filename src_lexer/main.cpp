@@ -6,12 +6,8 @@
 
 int main()
 {           
-    size_t tok = 0;
-
-    log_ptr          = fopen("./log/symbols_table.txt", "w"); // opens the log file
-    FILE* source_ptr = open_source("./txt/source.txt", log_ptr); // opens the source file
-    
-    yyin = source_ptr;
+    log_ptr = fopen(, "w"); // opens the log file
+    yyin = open_source_file("./txt/source.txt", log_ptr); // opens the source file;
 
     yylex();
 

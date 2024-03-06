@@ -1,6 +1,6 @@
 ![Screenshot](header.png)
 
-In general, it parses the `source.txt` and makes a lexical analysis of the source code written in Stasyan language. The output of the program is `symbol_table.txt`, where all tokens can be found. Moreover, it produces some additional debugging information and does error handling.
+In general, it parses the `Lexer/txt/source.txt` and makes a lexical analysis of the source code written in Stasyan language. The output of the program is `Lexer/txt/symbol_table.txt`, where all tokens can be found. Moreover, it produces some additional file `Lexer/log/log.txt` with debugging information and does error handling.
 
 ## What it can do?
 The last version can identify:
@@ -30,7 +30,7 @@ code ./Lexer/txt/source.txt
 ```bash
 make
 ```
-4. The output will be in the folder `./Lexer/log`
+4. The output will be in the folder `./Lexer/txt`
 ![Screenshot](output_exmpl.png)
 
 ## History of updates:
