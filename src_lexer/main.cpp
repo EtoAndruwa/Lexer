@@ -8,7 +8,7 @@ int main()
 {           
     size_t tok = 0;
 
-    log_ptr          = fopen("./log/log.txt", "w"); // opens the log file
+    log_ptr          = fopen("./log/.txt", "w"); // opens the log file
     FILE* source_ptr = open_source("./txt/source.txt", log_ptr); // opens the source file
     
     yyin = source_ptr;
