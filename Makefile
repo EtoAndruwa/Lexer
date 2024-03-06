@@ -43,7 +43,7 @@ clear_obj:
 	cd $(DIR_OBJ) && rm *.o
 
 clear_log: 	
-	cd $(DIR_LOG) && rm *.o
+	cd $(DIR_LOG) && rm *.txt
 
 clear_flex_files:
 	cd $(DIR_SRC_FLEX) && rm *.hpp *.c
