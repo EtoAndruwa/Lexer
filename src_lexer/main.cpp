@@ -1,12 +1,11 @@
 #include "file_funcs.hpp"
-#include "flex_header.hpp"
+#include "../src_flex/flex_header.hpp"
 #include "print_funcs.hpp"   
+
+/*################################################################################################################*/
 
 int main()
 {           
-    time_t t;   // for the current time
-    time(&t);   // for the current time
-
     size_t tok = 0;
 
     log_ptr          = fopen("./log/log.txt", "w"); // opens the log file
@@ -16,7 +15,7 @@ int main()
 
     yylex();
 
-    print_summary(log_ptr, &t); 
+    print_summary(log_ptr); 
 
     close_files(source_ptr, log_ptr); // closes the files 
 

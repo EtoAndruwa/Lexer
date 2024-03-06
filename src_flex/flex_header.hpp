@@ -2,9 +2,9 @@
 #define yyHEADER_H 1
 #define yyIN_HEADER 1
 
-#line 6 "./src/flex_header.hpp"
+#line 6 "./src_flex/flex_header.hpp"
 
-#line 8 "./src/flex_header.hpp"
+#line 8 "./src_flex/flex_header.hpp"
 
 #define  YY_INT_ALIGNED short int
 
@@ -466,9 +466,9 @@ extern int yylex (void);
 #undef yyTABLES_NAME
 #endif
 
-#line 77 "./src/flex.lex"
+#line 75 "./src_flex/flex.lex"
 
 
-#line 473 "./src/flex_header.hpp"
+#line 473 "./src_flex/flex_header.hpp"
 #undef yyIN_HEADER
 #endif /* yyHEADER_H */

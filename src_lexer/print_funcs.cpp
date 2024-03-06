@@ -1,17 +1,22 @@
 #include "print_funcs.hpp"
 
-void print_summary(FILE* const log_ptr, const time_t* const t)
+/*################################################################################################################*/
+
+void print_summary(FILE* const log_ptr)
 {
+      time_t t;   // for the current time
+      time(&t);   // for the current time
+
       fprintf(log_ptr, "\n============SUMMARY============\n");
-      fprintf(log_ptr, "Updated: %s", ctime(t));
+      fprintf(log_ptr, "Updated: %s", ctime(&t));
       fprintf(log_ptr, "Total number of token: %ld\n", total_tok_num);
       fprintf(log_ptr, "Total number of lines: %ld\n", line_num);
       fprintf(log_ptr, "============SUMMARY============\n");
 }
 
-void print_token_data(size_t const tok_type, const char* const tok_text, size_t const cur_tok_num, size_t const line_num, FILE* const log_ptr)
+void print_tok_data(size_t const tok_type, const char* const tok_text, size_t const cur_tok_num, size_t const total_tok_num, size_t const line_num, FILE* const log_ptr)
 {
-      fprintf(log_ptr, "(LINE: %ld, TOKEN_NUM: %ld) TOK_TYPE: ", line_num, cur_tok_num);
+      fprintf(log_ptr, "(LINE: %ld, NUM_IN_LINE: %ld, NUM_IN_FILE: %ld) TOK_TYPE: ", line_num, cur_tok_num, total_tok_num);
       
       switch (tok_type)
       {
@@ -76,8 +81,7 @@ void print_token_data(size_t const tok_type, const char* const tok_text, size_t 
       {
             fprintf(log_ptr, " TOK_TEXT: $\n");
       }
-      
-      if (tok_type != NEW_LINE)
+      else if (tok_type != NEW_LINE && tok_type != EOFILE)
       {
             fprintf(log_ptr, " TOK_TEXT: %s\n", tok_text);
       }
