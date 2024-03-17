@@ -73,13 +73,15 @@ void print_tok_data(size_t const tok_type, const char* const tok_text, size_t co
       case KEYWORD:
                   fprintf(output_ptr, "%-13s", "KEYWORD");
                   break;
-      case OTHER:
-                  fprintf(output_ptr, "%-13s", "OTHER");
+      case STRING:
+                  fprintf(output_ptr, "%-13s", "STRING");
+                  break;
+      case LOG_OP:
+                  fprintf(output_ptr, "%-13s", "LOG_OP");
                   break;
       default:
-                  fprintf(output_ptr, "%-13s", "NEW TOKEN");
-                  fprintf(output_ptr, " TOK_TEXT: %-13s <---------- NEW TOKEN\n", tok_text);
-                  return;
+                  fprintf(output_ptr, "%-13s", "DEFAULT CASE");
+                  break;
       }
       
       if (tok_type == EOFILE)

@@ -36,10 +36,11 @@ enum TOK_TYPE
     ID_OBJ, // used
     ID_TYPE, // used
     EOFILE, // used
-    KEYWORD,
+    KEYWORD, // used
+    STRING, // used
+    LOG_OP, // used
 
     // below must be checked
-    STRING,
     CHAR,
     VARIABLE,
     COMMENT,

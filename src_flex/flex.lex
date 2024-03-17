@@ -11,16 +11,22 @@ AZ     [A-Z]
 
 %%
 
-("+"|"-"|"*"|"/")"="{0,1}  {
+("+"|"-"|"*"|"/")("=")?  {
                               print_tok_data(ARITH_OP, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
                               total_tok_num++;
                               cur_tok_num++;
-                           }
+                        }
+
+"!="|"=="|">="|"<="|"&&"|">"|"<"|"||" {
+                                          print_tok_data(LOG_OP, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
+                                          total_tok_num++;
+                                          cur_tok_num++;
+                                      }
 
 "="                        {
-                              print_tok_data(ASSIGN_OP, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
-                              total_tok_num++;
-                              cur_tok_num++;
+                                print_tok_data(ASSIGN_OP, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
+                                total_tok_num++;
+                                cur_tok_num++;
                            }
 
 "("                     {
@@ -42,18 +48,23 @@ AZ     [A-Z]
                                                                                           }
 
 ((t|T)(H|h)(E|e)(n|N))|((N|n)(o|O)(T|t))|(((p|P)(r|R)(i|I)(n|N)(t|T))((L|l)(n|N))?) {
-                                                                        printf("HIT!\n");
-                                                                        print_tok_data(KEYWORD, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
-                                                                        total_tok_num++;
-                                                                        cur_tok_num++;
-                                                                      }
+                                                                                          print_tok_data(KEYWORD, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
+                                                                                          total_tok_num++;
+                                                                                          cur_tok_num++;
+                                                                                    }
 
 f(a|A)(L|l)(s|S)(E|e)|t(r|R)(u|U)(e|E) {
-                                          print_tok_data(KEYWORD, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
-                                          total_tok_num++;
-                                          cur_tok_num++;
+                                            print_tok_data(KEYWORD, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
+                                            total_tok_num++;
+                                            cur_tok_num++;
                                        }
             
+(\")([a-zA-Z(\\n)]*)(\")   {
+                              print_tok_data(STRING, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
+                              total_tok_num++;
+                              cur_tok_num++;
+                           }      
+
 {az}[a-zA-Z0-9_]*      {
                               print_tok_data(ID_OBJ, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
                               total_tok_num++;
@@ -65,11 +76,11 @@ f(a|A)(L|l)(s|S)(E|e)|t(r|R)(u|U)(e|E) {
                               cur_tok_num++;
                         }
 
-(0|{DIGIT1}+{DIGIT0}*)"."{DIGIT0}* { 
-                            print_tok_data(FLOAT_NUMBER, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
-                            total_tok_num++;
-                            cur_tok_num++;
-                      }
+(0|{DIGIT1}+{DIGIT0}*)"."{DIGIT0}*  { 
+                                          print_tok_data(FLOAT_NUMBER, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
+                                          total_tok_num++;
+                                          cur_tok_num++;
+                                    }
 {DIGIT0}    {
                   print_tok_data(DIGIT, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
                   total_tok_num++;
@@ -82,17 +93,6 @@ f(a|A)(L|l)(s|S)(E|e)|t(r|R)(u|U)(e|E) {
                         cur_tok_num++;
                   }
 
-
-"true"      {
-                  total_tok_num++;
-                  cur_tok_num++;
-            }
-
-"false"     {
-                  total_tok_num++;
-                  cur_tok_num++;
-            }
-
 \n          {
                   print_tok_data(NEW_LINE, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
                   total_tok_num++;
@@ -102,18 +102,17 @@ f(a|A)(L|l)(s|S)(E|e)|t(r|R)(u|U)(e|E) {
 
 [[:space:]]+
 
-.           {
-                  print_tok_data(OTHER, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
-                  total_tok_num++;
-                  cur_tok_num++;
-            }
-
 <<EOF>>     {
                   print_tok_data(EOFILE, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
                   fprintf(log_ptr, "No errors occured.\n");
                   return 0; 
             } 
 
+.           {
+                  print_tok_data(OTHER, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
+                  total_tok_num++;
+                  cur_tok_num++;
+            }
 
 %%
 
