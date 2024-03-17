@@ -12,7 +12,7 @@ int main()
 
     yylex();
 
-    print_summary(output_ptr); 
+    print_summary(output_ptr); // prints the summary of lexical analysis 
 
     close_file(yyin, log_ptr); // closes the source file
     close_file(output_ptr, log_ptr); // closes the source file

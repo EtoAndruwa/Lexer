@@ -41,41 +41,44 @@ void print_tok_data(size_t const tok_type, const char* const tok_text, size_t co
                   fprintf(output_ptr, "%-13s", "ARITH_OP");
                   break;
       case ASSIGN_OP:
-                  fprintf(output_ptr, "%-13s","ASSIGN_OP");
+                  fprintf(output_ptr, "%-13s", "ASSIGN_OP");
                   break;
       case OP_BRACE:
-                  fprintf(output_ptr, "%-13s","OP_BRACE");
+                  fprintf(output_ptr, "%-13s", "OP_BRACE");
                   break;
       case CL_BRACE:
-                  fprintf(output_ptr, "%-13s","CL_BRACE");
+                  fprintf(output_ptr, "%-13s", "CL_BRACE");
                   break;
       case INT_NUMBER:
-                  fprintf(output_ptr, "%-13s","INT_NUMBER");
+                  fprintf(output_ptr, "%-13s", "INT_NUMBER");
                   break;
       case DIGIT:
-                  fprintf(output_ptr, "%-13s","DIGIT");
+                  fprintf(output_ptr, "%-13s", "DIGIT");
                   break;
       case NEW_LINE:
-                  fprintf(output_ptr, "%-13s","NEW_LINE");
+                  fprintf(output_ptr, "%-13s", "NEW_LINE");
                   break;
       case ID_OBJ:
-                  fprintf(output_ptr, "%-13s","ID_OBJ");
+                  fprintf(output_ptr, "%-13s", "ID_OBJ");
                   break;
       case ID_TYPE:
-                  fprintf(output_ptr, "%-13s","ID_TYPE");
+                  fprintf(output_ptr, "%-13s", "ID_TYPE");
                   break;
       case FLOAT_NUMBER:
-                  fprintf(output_ptr, "%-13s","FLOAT_NUMBER");
+                  fprintf(output_ptr, "%-13s", "FLOAT_NUMBER");
                   break;
       case EOFILE:
-                  fprintf(output_ptr, "%-13s","EOFILE");
+                  fprintf(output_ptr, "%-13s", "EOFILE");
+                  break;
+      case KEYWORD:
+                  fprintf(output_ptr, "%-13s", "KEYWORD");
                   break;
       case OTHER:
-                  fprintf(output_ptr, "%-13s","ERROR_TOKEN");
+                  fprintf(output_ptr, "%-13s", "OTHER");
                   break;
       default:
-                  fprintf(output_ptr, "NEW TOKEN TOK_TEXT: %-13s <---------- NEW TOKEN\n", tok_text);
-                  
+                  fprintf(output_ptr, "%-13s", "NEW TOKEN");
+                  fprintf(output_ptr, " TOK_TEXT: %-13s <---------- NEW TOKEN\n", tok_text);
                   return;
       }
       

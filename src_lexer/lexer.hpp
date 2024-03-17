@@ -23,24 +23,24 @@ extern FILE* output_ptr;
 
 enum TOK_TYPE
 {
-    ARITH_OP,
-    ASSIGN_OP,
-    OP_BRACE,
-    CL_BRACE,
-    INT_NUMBER,
-    FLOAT_NUMBER,
-    DIGIT,
-    NEW_LINE,
-    KEY_WORD,
-    OTHER,
-    ID_OBJ,
-    ID_TYPE,
-    EOFILE,
+    ARITH_OP, // used
+    ASSIGN_OP, // used
+    OP_BRACE, // used
+    CL_BRACE, // used
+    INT_NUMBER,// used
+    FLOAT_NUMBER, // used
+    DIGIT, // used
+    NEW_LINE, // used
+    KEY_WORD, 
+    OTHER, // used
+    ID_OBJ, // used
+    ID_TYPE, // used
+    EOFILE, // used
+    KEYWORD,
 
     // below must be checked
     STRING,
     CHAR,
-    OBJ_NAME,
     VARIABLE,
     COMMENT,
 };

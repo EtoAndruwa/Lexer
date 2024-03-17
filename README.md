@@ -8,7 +8,9 @@ The last version can identify:
 * Type identifiers
 * Object identifiers
 * Digits
-* Numbers (unsigned) 
+* Ints (unsigned) 
+* Floats (unsigned) 
+* Keywords (false, while, not, etc.) 
 * \n 
 * EOF
 
