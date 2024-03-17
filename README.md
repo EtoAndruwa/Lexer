@@ -11,6 +11,7 @@ The last version can identify:
 * Ints (unsigned) 
 * Floats (unsigned) 
 * Keywords (false, while, not, etc.) 
+* Strings
 * \n 
 * EOF
 
