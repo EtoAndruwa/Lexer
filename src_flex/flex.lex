@@ -9,35 +9,39 @@ DIGIT1 [1-9]
 az     [a-z]
 AZ     [A-Z] 
 
-
 %%
 
 "+"|"-"|"*"|"/"   {
-                        print_tok_data(ARITH_OP, yytext, cur_tok_num, total_tok_num, line_num, log_ptr);
+                        print_tok_data(ARITH_OP, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
                         total_tok_num++;
                         cur_tok_num++;
                   }
 
+            
 {az}[a-zA-Z0-9_]*      {
-                              print_tok_data(ID_OBJ, yytext, cur_tok_num, total_tok_num, line_num, log_ptr);
+                              print_tok_data(ID_OBJ, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
                               total_tok_num++;
                               cur_tok_num++;
                         }
-
 {AZ}[a-zA-Z0-9_]*      {
-                              print_tok_data(ID_TYPE, yytext, cur_tok_num, total_tok_num, line_num, log_ptr);
+                              print_tok_data(ID_TYPE, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
                               total_tok_num++;
                               cur_tok_num++;
                         }
 
-[+-]?{DIGIT0}    {
-                  print_tok_data(DIGIT, yytext, cur_tok_num, total_tok_num, line_num, log_ptr);
+(0|{DIGIT1}+{DIGIT0}*)"."{DIGIT0}* { 
+                            print_tok_data(FLOAT_NUMBER, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
+                            total_tok_num++;
+                            cur_tok_num++;
+                      }
+{DIGIT0}    {
+                  print_tok_data(DIGIT, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
                   total_tok_num++;
                   cur_tok_num++;
             }
 
-[+-]?{DIGIT1}{DIGIT0}+ {
-                        print_tok_data(NUMBER, yytext, cur_tok_num, total_tok_num, line_num, log_ptr);
+{DIGIT1}{DIGIT0}+ {
+                        print_tok_data(INT_NUMBER, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
                         total_tok_num++;
                         cur_tok_num++;
                   }
@@ -54,20 +58,21 @@ AZ     [A-Z]
             }
 
 \n          {
-                  print_tok_data(NEW_LINE, yytext, cur_tok_num, total_tok_num, line_num, log_ptr);
+                  print_tok_data(NEW_LINE, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
                   total_tok_num++;
                   cur_tok_num = 1;
                   line_num++;
             }
 
 .           {
-                  print_tok_data(OTHER, yytext, cur_tok_num, total_tok_num, line_num, log_ptr);
+                  print_tok_data(OTHER, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
                   total_tok_num++;
                   cur_tok_num++;
             }
 
 <<EOF>>     {
-                  print_tok_data(EOFILE, yytext, cur_tok_num, total_tok_num, line_num, log_ptr);
+                  print_tok_data(EOFILE, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
+                  fprintf(log_ptr, "No errors occured.\n");
                   return 0; 
             } 
 
