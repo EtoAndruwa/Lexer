@@ -6,6 +6,7 @@
 #include <time.h>
 #include <cstdio>
 #include <cstddef>
+#include <string.h>
 
 /*################################################################################################################*/
 
@@ -14,8 +15,10 @@ extern size_t line_num;
 extern size_t total_tok_num;
 extern size_t brackets_num;
 extern size_t error_tok_num;
+extern bool without_errs;
 extern FILE* log_ptr;
 extern FILE* output_ptr;
+
 
 #define OUTPUT_FILE "./txt/symbols_table.txt"  // The name of the output file
 #define LOG_FILE "./log/log.txt"               // The name of the log file 
@@ -46,10 +49,11 @@ enum TOK_TYPE
 
 enum ERR_CODES
 {
-    NO_OPENING_BR,
-    NO_CLOSING_BR,
-
-
+    OK,
+    ERR_BRACKETS_MATCH,
+    ERR_INV_STRING,
+    ERR_INV_FLOAT,
+    ERR_UNKNOWN_TOK,
 };
 
 /*################################################################################################################*/

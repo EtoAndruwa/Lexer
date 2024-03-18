@@ -2,6 +2,8 @@
       #include "../src_lexer/lexer.hpp"
       #include "../src_lexer/print_funcs.hpp"
       #include "../src_lexer/file_funcs.hpp"
+
+
 %}
 
 DIGIT0 [0-9] 
@@ -13,32 +15,6 @@ COMMENT_TEXT_V1 [a-zA-Z0-9_\-\t\n ]*
 FULL_COMMENT_V1 {COMMENT_V1}|(("/*")((" "|\t)*({COMMENT_V1}*(" "|\t)*{COMMENT_TEXT_V1}*)*(" "|\t)*)*("*/"))
 
 %%
-
-"--" {
-            char chr = 0;
-            for ( ; ; )
-            {
-                  while ((chr = yyinput()) != '\n' && chr != EOF ) ;
-                  
-                  if (chr == '\n')
-                  {     
-                        print_tok_data(COMMENT, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
-                        ++total_tok_num;
-                        ++cur_tok_num;
-                        printf("Comment2\n");
-                        break;
-                  }
-                  else if (chr == EOF)
-                  {
-                        print_tok_data(COMMENT, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
-                        ++total_tok_num;
-                        ++cur_tok_num;
-                        printf("Comment2\n");
-                        print_tok_data(EOFILE, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
-                  }
-            }
-      }
-
 
 ("+"|"-"|"*"|"/")("=")?  {
                               print_tok_data(ARITH_OP, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
@@ -57,6 +33,7 @@ FULL_COMMENT_V1 {COMMENT_V1}|(("/*")((" "|\t)*({COMMENT_V1}*(" "|\t)*{COMMENT_TE
                                 ++total_tok_num;
                                 ++cur_tok_num;
                            }
+
 
 "("                     {
                               print_tok_data(OP_BRACE, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
@@ -108,7 +85,9 @@ f(a|A)(L|l)(s|S)(E|e)|t(r|R)(u|U)(e|E) {
             
 (\").*(\")   {
                   print_tok_data(OTHER, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
+                  print_err_to_log(ERR_INV_STRING, total_tok_num, log_ptr);
                   ++error_tok_num;
+                  without_errs = false;
                   ++total_tok_num;
                   ++cur_tok_num;
              } 
@@ -140,7 +119,9 @@ f(a|A)(L|l)(s|S)(E|e)|t(r|R)(u|U)(e|E) {
 
 "."{DIGIT0}* {
                   print_tok_data(OTHER, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
+                  print_err_to_log(ERR_INV_FLOAT, total_tok_num, log_ptr);
                   ++error_tok_num;
+                  without_errs = false;
                   ++total_tok_num;
                   ++cur_tok_num;
                }
@@ -157,14 +138,32 @@ f(a|A)(L|l)(s|S)(E|e)|t(r|R)(u|U)(e|E) {
                         ++cur_tok_num;
                   }
 
-[[:space:]]+|\n
+\n                {     
+                        ++line_num;
+                        cur_tok_num = 1;
+                  }
+
+(" "|\t)+
+
+"--".*   {
+                  print_tok_data(COMMENT, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
+                  printf("Comment2\n");
+                  ++total_tok_num;
+                  ++cur_tok_num;
+              }
+
 
 <<EOF>>     {
                   print_tok_data(EOFILE, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
 
-                  if (brackets_num)
+                  if (brackets_num != 0)
                   {
-
+                        print_err_to_log(ERR_BRACKETS_MATCH, 0 , log_ptr);
+                  }
+                  
+                  if (without_errs)
+                  {
+                        print_err_to_log(OK, 0 , log_ptr);
                   }
 
                   return 0; 
@@ -172,7 +171,9 @@ f(a|A)(L|l)(s|S)(E|e)|t(r|R)(u|U)(e|E) {
 
 .           {
                   print_tok_data(OTHER, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
+                  print_err_to_log(ERR_UNKNOWN_TOK, total_tok_num, log_ptr);
                   ++error_tok_num;
+                  without_errs = false;
                   ++total_tok_num;
                   ++cur_tok_num;
             }

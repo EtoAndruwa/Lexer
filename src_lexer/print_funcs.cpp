@@ -96,8 +96,24 @@ void print_tok_data(size_t const tok_type, const char* const tok_text, size_t co
                   fprintf(output_ptr, " TOK_TEXT: %-10s <---------- ERROR TOKEN\n", tok_text);
             }
             else 
-            {
-                  fprintf(output_ptr, " TOK_TEXT: %-10s\n", tok_text);
+            {     
+                  if (tok_type == COMMENT)
+                  {     
+                        size_t str_len = strlen(tok_text);
+                        
+                        if (tok_text[str_len - 1] == '\n')
+                        {
+                              fprintf(output_ptr, " TOK_TEXT: %-10s", tok_text);
+                        }
+                        else 
+                        {
+                              fprintf(output_ptr, " TOK_TEXT: %-10s\n", tok_text);
+                        }
+                  }
+                  else 
+                  {
+                        fprintf(output_ptr, " TOK_TEXT: %-10s\n", tok_text);
+                  }
             }
       }
 }
@@ -107,14 +123,39 @@ void print_err_to_log(int const err_code, size_t last_err_tok_num, FILE* const l
       if (log_ptr == nullptr)
       {
             printf("================ERROR================\n");
-            printf("ERROR(in print_err_to_log()):\n");
-            printf("Cannot output the error message to the log file.\n");
+            printf("Cannot output the error message (%d) to the log file.\n", err_code);
             printf("================ERROR================\n\n");
       }
       else 
       {       
-            fprintf(log_ptr,"================ERROR================\n");
-            fprintf(log_ptr,"ERROR(in print_err_to_log()): unable to open file.\n");
-            fprintf(log_ptr,"================ERROR================\n\n");
+            if (err_code == OK)
+            {
+                  fprintf(log_ptr,"No errors occured during lexical analysis\n");
+            }
+            else 
+            {
+                  fprintf(log_ptr,"================ERROR================\n");
+
+                  switch (err_code)
+                  {     
+                  case ERR_BRACKETS_MATCH:
+                        fprintf(log_ptr,"ERR_BRACKETS_MATCH(%d): something with bracket's sequence\n", err_code);
+                        break;
+                  case ERR_INV_STRING:
+                        fprintf(log_ptr,"ERR_INV_STRING(%d): invalid string. NUM_IN_FILE: %d\n", err_code, last_err_tok_num);
+                        break;
+                  case ERR_INV_FLOAT:
+                        fprintf(log_ptr,"ERR_INV_FLOAT(%d): invalid float. NUM_IN_FILE: %d\n", err_code, last_err_tok_num);
+                        break;
+                  case ERR_UNKNOWN_TOK:
+                        fprintf(log_ptr,"ERR_UNKNOWN(%d): invalid token. NUM_IN_FILE: %d\n", err_code, last_err_tok_num);
+                        break;
+                  default:
+                        fprintf(log_ptr,"NEW ERROR CODE\n");
+                        break;
+                  }
+                  
+                  fprintf(log_ptr,"================ERROR================\n\n");
+            }
       }
 }

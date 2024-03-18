@@ -12,7 +12,9 @@ The last version can identify:
 * Floats (unsigned) 
 * Keywords (false, while, not, etc.) 
 * Strings
-* \n 
+* Comments v1 (--"text")
+* Comments v2 (/* text */)
+* Comments v3 ((text)) // working on
 * EOF
 
 ## Dependencies
