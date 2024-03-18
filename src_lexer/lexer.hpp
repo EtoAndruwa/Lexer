@@ -12,6 +12,8 @@
 extern size_t cur_tok_num;
 extern size_t line_num;
 extern size_t total_tok_num;
+extern size_t brackets_num;
+extern size_t error_tok_num;
 extern FILE* log_ptr;
 extern FILE* output_ptr;
 
@@ -30,8 +32,6 @@ enum TOK_TYPE
     INT_NUMBER,// used
     FLOAT_NUMBER, // used
     DIGIT, // used
-    NEW_LINE, // used
-    KEY_WORD, 
     OTHER, // used
     ID_OBJ, // used
     ID_TYPE, // used
@@ -41,12 +41,16 @@ enum TOK_TYPE
     LOG_OP, // used
 
     // below must be checked
-    CHAR,
-    VARIABLE,
-    COMMENT,
+    COMMENT, // used
 };
 
-extern TOK_TYPE State;
+enum ERR_CODES
+{
+    NO_OPENING_BR,
+    NO_CLOSING_BR,
+
+
+};
 
 /*################################################################################################################*/
 

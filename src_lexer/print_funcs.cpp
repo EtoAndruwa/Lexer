@@ -23,6 +23,7 @@ void print_summary(FILE* const output_ptr) // OK
 
       fprintf(output_ptr, "Total number of token: %ld\n", total_tok_num);
       fprintf(output_ptr, "Total number of lines: %ld\n", line_num);
+      fprintf(output_ptr, "Total number of error tokens: %ld\n", error_tok_num);
       fprintf(output_ptr, "============SUMMARY============\n\n");
 }
 
@@ -55,9 +56,6 @@ void print_tok_data(size_t const tok_type, const char* const tok_text, size_t co
       case DIGIT:
                   fprintf(output_ptr, "%-13s", "DIGIT");
                   break;
-      case NEW_LINE:
-                  fprintf(output_ptr, "%-13s", "NEW_LINE");
-                  break;
       case ID_OBJ:
                   fprintf(output_ptr, "%-13s", "ID_OBJ");
                   break;
@@ -76,11 +74,14 @@ void print_tok_data(size_t const tok_type, const char* const tok_text, size_t co
       case STRING:
                   fprintf(output_ptr, "%-13s", "STRING");
                   break;
+      case COMMENT:
+                  fprintf(output_ptr, "%-13s", "COMMENT");
+                  break;
       case LOG_OP:
                   fprintf(output_ptr, "%-13s", "LOG_OP");
                   break;
       default:
-                  fprintf(output_ptr, "%-13s", "DEFAULT CASE");
+                  fprintf(output_ptr, "%-13s", " ");
                   break;
       }
       
@@ -88,7 +89,7 @@ void print_tok_data(size_t const tok_type, const char* const tok_text, size_t co
       {
             fprintf(output_ptr, " TOK_TEXT: $\n");
       }
-      else if (tok_type != NEW_LINE && tok_type != EOFILE)
+      else if (tok_type != EOFILE)
       {
             if (tok_type == OTHER)
             {
@@ -99,8 +100,21 @@ void print_tok_data(size_t const tok_type, const char* const tok_text, size_t co
                   fprintf(output_ptr, " TOK_TEXT: %-10s\n", tok_text);
             }
       }
-      else
+}
+
+void print_err_to_log(int const err_code, size_t last_err_tok_num, FILE* const log_ptr)
+{
+      if (log_ptr == nullptr)
       {
-            fprintf(output_ptr, " TOK_TEXT: \\n\n");
+            printf("================ERROR================\n");
+            printf("ERROR(in print_err_to_log()):\n");
+            printf("Cannot output the error message to the log file.\n");
+            printf("================ERROR================\n\n");
+      }
+      else 
+      {       
+            fprintf(log_ptr,"================ERROR================\n");
+            fprintf(log_ptr,"ERROR(in print_err_to_log()): unable to open file.\n");
+            fprintf(log_ptr,"================ERROR================\n\n");
       }
 }

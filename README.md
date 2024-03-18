@@ -37,6 +37,7 @@ make
 ![Screenshot](output_exmpl.png)
 
 ## History of updates:
+* 18.03.24
 * 17.03.24
 * 06.03.24
 * 04.03.24
