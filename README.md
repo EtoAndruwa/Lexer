@@ -12,9 +12,8 @@ The last version can identify:
 * Floats (unsigned) 
 * Keywords (false, while, not, etc.) 
 * Strings
-* Comments v1 (--"text")
-* Comments v2 (/* text */)
-* Comments v3 ((text)) // working on
+* Comments v1 (/* text */)
+* Comments v2 (--"text")
 * EOF
 
 ## Dependencies
@@ -39,7 +38,7 @@ make
 ![Screenshot](output_exmpl.png)
 
 ## History of updates:
-* 18.03.24
+* 18.03.24 (Latest)
 * 17.03.24
 * 06.03.24
 * 04.03.24

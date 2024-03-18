@@ -14,7 +14,7 @@ extern size_t cur_tok_num;
 extern size_t line_num;
 extern size_t total_tok_num;
 extern size_t brackets_num;
-extern size_t error_tok_num;
+extern size_t total_err_tok_num;
 extern bool without_errs;
 extern FILE* log_ptr;
 extern FILE* output_ptr;
@@ -26,33 +26,38 @@ extern FILE* output_ptr;
 
 /*################################################################################################################*/
 
+/*
+* This enum stores the tokens' types
+*/
 enum TOK_TYPE
 {
-    ARITH_OP, // used
-    ASSIGN_OP, // used
-    OP_BRACE, // used
-    CL_BRACE, // used
-    INT_NUMBER,// used
-    FLOAT_NUMBER, // used
-    DIGIT, // used
-    OTHER, // used
-    ID_OBJ, // used
-    ID_TYPE, // used
-    EOFILE, // used
-    KEYWORD, // used
-    STRING, // used
-    LOG_OP, // used
-
-    // below must be checked
-    COMMENT, // used
+    ARITH_OP, 
+    ASSIGN_OP, 
+    OP_BRACE, 
+    CL_BRACE, 
+    INT_NUMBER,
+    FLOAT_NUMBER, 
+    DIGIT, 
+    OTHER, 
+    ID_OBJ, 
+    ID_TYPE, 
+    EOFILE, 
+    KEYWORD, 
+    STRING, 
+    LOG_OP, 
+    COMMENT, 
 };
 
+/*
+* This enum stores the error codes
+*/
 enum ERR_CODES
 {
     OK,
     ERR_BRACKETS_MATCH,
     ERR_INV_STRING,
     ERR_INV_FLOAT,
+    ERR_NO_OPEN_BRC,
     ERR_UNKNOWN_TOK,
 };
 

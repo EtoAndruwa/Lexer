@@ -23,13 +23,13 @@ void print_summary(FILE* const output_ptr) // OK
 
       fprintf(output_ptr, "Total number of token: %ld\n", total_tok_num);
       fprintf(output_ptr, "Total number of lines: %ld\n", line_num);
-      fprintf(output_ptr, "Total number of error tokens: %ld\n", error_tok_num);
+      fprintf(output_ptr, "Total number of error tokens: %ld\n", total_err_tok_num);
       fprintf(output_ptr, "============SUMMARY============\n\n");
 }
 
 /*
 * This function prints the 
-* tokens' data to the outputf ile
+* tokens' data to the output file
 */
 void print_tok_data(size_t const tok_type, const char* const tok_text, size_t const cur_tok_num, size_t const total_tok_num, 
       size_t const line_num, FILE* const output_ptr) // OK
@@ -118,6 +118,9 @@ void print_tok_data(size_t const tok_type, const char* const tok_text, size_t co
       }
 }
 
+/* 
+* This function prints the error messages to the log file 
+*/
 void print_err_to_log(int const err_code, size_t last_err_tok_num, FILE* const log_ptr)
 {
       if (log_ptr == nullptr)
@@ -149,6 +152,9 @@ void print_err_to_log(int const err_code, size_t last_err_tok_num, FILE* const l
                         break;
                   case ERR_UNKNOWN_TOK:
                         fprintf(log_ptr,"ERR_UNKNOWN(%d): invalid token. NUM_IN_FILE: %d\n", err_code, last_err_tok_num);
+                        break;
+                  case ERR_NO_OPEN_BRC:
+                        fprintf(log_ptr,"ERR_NO_OPEN_BRC(%d): no opened bracket before closing one. NUM_IN_FILE: %d\n", err_code, last_err_tok_num);
                         break;
                   default:
                         fprintf(log_ptr,"NEW ERROR CODE\n");

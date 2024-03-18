@@ -10,9 +10,10 @@ DIGIT0 [0-9]
 DIGIT1 [1-9]
 az     [a-z]
 AZ     [A-Z] 
-COMMENT_V1 ("/*")([a-zA-Z0-9_\-\t\n ]*)("*/")
+COMMENT_V2 ("--".*)
+COMMENT_V1 ("/*")[a-zA-Z0-9_\-\t\n ]*("*/")
 COMMENT_TEXT_V1 [a-zA-Z0-9_\-\t\n ]*
-FULL_COMMENT_V1 {COMMENT_V1}|(("/*")((" "|\t)*({COMMENT_V1}*(" "|\t)*{COMMENT_TEXT_V1}*)*(" "|\t)*)*("*/"))
+FULL_COMMENT_V1 {COMMENT_V1}|("/*")+((("/*")*{COMMENT_V1}*("*/")*)*{COMMENT_TEXT_V1}*)*("*/")+
 
 %%
 
@@ -33,8 +34,6 @@ FULL_COMMENT_V1 {COMMENT_V1}|(("/*")((" "|\t)*({COMMENT_V1}*(" "|\t)*{COMMENT_TE
                                 ++total_tok_num;
                                 ++cur_tok_num;
                            }
-
-
 "("                     {
                               print_tok_data(OP_BRACE, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
                               ++total_tok_num;
@@ -51,13 +50,15 @@ FULL_COMMENT_V1 {COMMENT_V1}|(("/*")((" "|\t)*({COMMENT_V1}*(" "|\t)*{COMMENT_TE
                               else 
                               {
                                     print_tok_data(OTHER, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
-                                    ++error_tok_num;
+                                    print_err_to_log(ERR_NO_OPEN_BRC, total_tok_num, log_ptr);
+                                    ++total_err_tok_num;
                                     brackets_num = 0;
                               }
 
                               ++total_tok_num;
                               ++cur_tok_num;
                         }
+
 
 ((i|I)(f|F))|((e|E)(l|L)(s|S)(E|e))|((L|l)([(o|O)]{2})(p|P))|((w|W)(h|H)(i|I)(L|l)(e|E))  {
                                                                                                 print_tok_data(KEYWORD, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
@@ -76,6 +77,11 @@ f(a|A)(L|l)(s|S)(E|e)|t(r|R)(u|U)(e|E) {
                                             ++total_tok_num;
                                             ++cur_tok_num;
                                        }
+{FULL_COMMENT_V1}   { 
+                        print_tok_data(COMMENT, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
+                        ++total_tok_num;
+                        ++cur_tok_num;
+                  }  
 
 (\")([a-zA-Z\\n]*)(\")   {
                               print_tok_data(STRING, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
@@ -86,19 +92,13 @@ f(a|A)(L|l)(s|S)(E|e)|t(r|R)(u|U)(e|E) {
 (\").*(\")   {
                   print_tok_data(OTHER, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
                   print_err_to_log(ERR_INV_STRING, total_tok_num, log_ptr);
-                  ++error_tok_num;
+                  ++total_err_tok_num;
                   without_errs = false;
                   ++total_tok_num;
                   ++cur_tok_num;
              } 
 
 
-{FULL_COMMENT_V1}   { 
-                        print_tok_data(COMMENT, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
-                        printf("Comment1\n");
-                        ++total_tok_num;
-                        ++cur_tok_num;
-                  }  
 
 {az}[a-zA-Z0-9_]*      {
                               print_tok_data(ID_OBJ, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
@@ -120,7 +120,7 @@ f(a|A)(L|l)(s|S)(E|e)|t(r|R)(u|U)(e|E) {
 "."{DIGIT0}* {
                   print_tok_data(OTHER, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
                   print_err_to_log(ERR_INV_FLOAT, total_tok_num, log_ptr);
-                  ++error_tok_num;
+                  ++total_err_tok_num;
                   without_errs = false;
                   ++total_tok_num;
                   ++cur_tok_num;
@@ -145,9 +145,8 @@ f(a|A)(L|l)(s|S)(E|e)|t(r|R)(u|U)(e|E) {
 
 (" "|\t)+
 
-"--".*   {
+{COMMENT_V2}  {
                   print_tok_data(COMMENT, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
-                  printf("Comment2\n");
                   ++total_tok_num;
                   ++cur_tok_num;
               }
@@ -172,7 +171,7 @@ f(a|A)(L|l)(s|S)(E|e)|t(r|R)(u|U)(e|E) {
 .           {
                   print_tok_data(OTHER, yytext, cur_tok_num, total_tok_num, line_num, output_ptr);
                   print_err_to_log(ERR_UNKNOWN_TOK, total_tok_num, log_ptr);
-                  ++error_tok_num;
+                  ++total_err_tok_num;
                   without_errs = false;
                   ++total_tok_num;
                   ++cur_tok_num;
