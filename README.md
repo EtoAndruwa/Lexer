@@ -1,8 +1,8 @@
 ![Screenshot](header.png)
 
-In general, it parses the `Lexer/txt/source.txt` and makes a lexical analysis of the source code written in Stasyan language. The output of the program is `Lexer/txt/symbol_table.txt`, where all tokens can be found. Moreover, it produces some additional file `Lexer/log/log.txt` with debugging information and does error handling.
+In general, it parses the `Lexer/txt/source.txt` and makes a lexical analysis of the source code written in the Stasyan language. The output of the program is `Lexer/txt/symbol_table.txt`, where all tokens can be found. Moreover, it produces some additional file `Lexer/log/log.txt` with debugging information and does error handling.
 
-## What it can do?
+## What can it do?
 The last version can identify:
 * Arithmetical operators
 * Type identifiers
@@ -26,11 +26,11 @@ The last version can identify:
 cd $(working_repo)
 git clone git@github.com:EtoAndruwa/Lexer.git 
 ```
-2. Write the code of `source.txt` using some text editor (VS code, Sublime, etc):
+2. Write the code of `source.txt` using some text editor (VS Code, Sublime, etc):
 ```bash
 code ./Lexer/txt/source.txt
 ```
-3. Run Makefile in order to compile & run the whole project:
+3. Run Makefile to compile & run the whole project:
 ```bash
 make
 ```
